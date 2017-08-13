@@ -25,6 +25,7 @@ import (
 	"github.com/emicklei/go-restful-swagger12"
 
 	"kube-service/proxy"
+	"kube-service/filters"
 	_ "kube-service/config"
 	"kube-service/svc"
 )
@@ -33,7 +34,7 @@ func main() {
 
 	defaultContainer := restful.NewContainer()
 	svc.InitService(defaultContainer)
-	defaultContainer.Filter(containerLogging)
+	defaultContainer.Filter(filters.ContainerLogging)
 
 	workDir, err := os.Getwd()
 	if err != nil {
@@ -59,7 +60,4 @@ func main() {
 	log.Fatal(server.ListenAndServe())
 }
 
-func containerLogging(req *restful.Request, resp *restful.Response, chain *restful.FilterChain) {
-	log.Printf("[container-filter] %s, %s\n", req.Request.Method, req.Request.URL)
-	chain.ProcessFilter(req, resp)
-}
+

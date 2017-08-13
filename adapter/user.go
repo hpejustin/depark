@@ -17,14 +17,13 @@ limitations under the License.
 package adapter
 
 import (
-	"log"
 	"net/http"
 	"sync"
 
 	"github.com/emicklei/go-restful"
 
 	"kube-service/model"
-	"kube-service/cache"
+	"kube-service/filters"
 	"kube-service/dao"
 )
 
@@ -36,15 +35,13 @@ type UserService struct {
 
 func (u UserService) Register() *restful.WebService {
 
-	//u.UserRepository = dao.NewUserDAO()
-
 	ws := new(restful.WebService)
 	ws.
 		Path("/users").
 		Consumes(restful.MIME_XML, restful.MIME_JSON).
 		Produces(restful.MIME_JSON, restful.MIME_XML) // you can specify this per route as well
 
-	ws.Filter(serviceLogging).Filter(diagnosis)
+	ws.Filter(filters.ServiceLogging).Filter(filters.ServiceDiagnosis)
 
 	ws.Route(ws.GET("/").To(u.findAllUsers).
 		// docs
@@ -83,22 +80,10 @@ func (u UserService) Register() *restful.WebService {
 	return ws
 }
 
-func serviceLogging(req *restful.Request, resp *restful.Response, chain *restful.FilterChain) {
-	log.Printf("[service-filter] %s, %s\n", req.Request.Method, req.Request.URL)
-	chain.ProcessFilter(req, resp)
-}
 
-func diagnosis(req *restful.Request, resp *restful.Response, chain *restful.FilterChain) {
-	if !cache.FettleCache.Health {
-		resp.AddHeader("Content-Type", "application/json")
-		resp.WriteHeaderAndEntity(203, "backend is not ready")
-		return
-	}
-	chain.ProcessFilter(req, resp)
-}
 
 // GET http://localhost:8080/users
-// 
+//
 func (u UserService) findAllUsers(request *restful.Request, response *restful.Response) {
 	list := []model.User{}
 	for _, each := range u.UserRepository.List() {
@@ -120,7 +105,6 @@ func (u UserService) findUser(request *restful.Request, response *restful.Respon
 }
 
 // PUT http://localhost:8080/users/1
-// <User><Id>1</Id><Name>Melissa Raspberry</Name></User>
 //
 func (u *UserService) updateUser(request *restful.Request, response *restful.Response) {
 	u.mu.Lock()
@@ -137,7 +121,6 @@ func (u *UserService) updateUser(request *restful.Request, response *restful.Res
 }
 
 // PUT http://localhost:8080/users/
-// <User><Id>1</Id><Name>Melissa</Name></User>
 //
 func (u *UserService) createUser(request *restful.Request, response *restful.Response) {
 	user := model.User{}
