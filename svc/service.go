@@ -18,8 +18,8 @@ package svc
 
 import (
 	"github.com/emicklei/go-restful"
-	"kube-service/adapter"
-	"kube-service/dao"
+	"depark/adapter"
+	"depark/dao"
 )
 
 func InitService(container *restful.Container) {

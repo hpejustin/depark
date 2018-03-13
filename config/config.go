@@ -24,7 +24,7 @@ import (
 	"os"
 	"net/http"
 
-	"kube-service/cache"
+	"depark/cache"
 	"time"
 )
 

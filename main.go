@@ -24,10 +24,10 @@ import (
 	"github.com/emicklei/go-restful"
 	"github.com/emicklei/go-restful-swagger12"
 
-	"kube-service/proxy"
-	"kube-service/filters"
-	_ "kube-service/config"
-	"kube-service/svc"
+	"depark/proxy"
+	"depark/filters"
+	_ "depark/config"
+	"depark/svc"
 )
 
 func main() {
@@ -45,7 +45,7 @@ func main() {
 	// Open http://localhost:8080/apidocs and enter http://localhost:8080/apidocs.json in the api input field.
 	config := swagger.Config{
 		WebServices:    defaultContainer.RegisteredWebServices(), // you control what services are visible
-		WebServicesUrl: "http://localhost:8080",
+		WebServicesUrl: "http://localhost:8088",
 		ApiPath:        "/apidocs.json",
 
 		// Optionally, specify where the UI is located
@@ -53,9 +53,9 @@ func main() {
 		SwaggerFilePath: workDir + "/swagger_dist"}
 
 	swagger.RegisterSwaggerService(config, defaultContainer)
-	server := &http.Server{Addr: ":8080", Handler: defaultContainer}
+	server := &http.Server{Addr: ":8088", Handler: defaultContainer}
 
-	log.Print("start listening on localhost:8080")
+	log.Print("start listening on localhost:8088")
 	go proxy.Run()
 	log.Fatal(server.ListenAndServe())
 }

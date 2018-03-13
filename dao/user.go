@@ -17,7 +17,7 @@ limitations under the License.
 package dao
 
 import (
-	"kube-service/model"
+	"depark/model"
 	"time"
 	"log"
 	"database/sql"

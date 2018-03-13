@@ -22,9 +22,9 @@ import (
 
 	"github.com/emicklei/go-restful"
 
-	"kube-service/model"
-	"kube-service/filters"
-	"kube-service/dao"
+	"depark/model"
+	"depark/filters"
+	"depark/dao"
 )
 
 type UserService struct {
