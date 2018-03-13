@@ -19,3 +19,7 @@ Application Service Engine
 + Fuses support
 + Object Mutex support
 + Channel support
+
+## Swagger UI
+
+http://localhost:8088/apidocs/

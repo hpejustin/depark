@@ -17,18 +17,18 @@ limitations under the License.
 package config
 
 import (
-	"log"
-	"io/ioutil"
-	"fmt"
 	"encoding/json"
-	"os"
+	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
+	"os"
 
 	"depark/cache"
 	"time"
 )
 
-var options = RunOptions{}
+var Options = RunOptions{}
 
 type RunOptions struct {
 	Backend string `json: "backend"`
@@ -45,19 +45,19 @@ func init() {
 		return
 	}
 
-	if err := json.Unmarshal(bytes, &options); err != nil {
+	if err := json.Unmarshal(bytes, &Options); err != nil {
 		fmt.Printf("unmarshal error, %v", err)
 		return
 	}
 
-	log.Printf("backend: %s", options.Backend)
+	log.Printf("backend: %s", Options.Backend)
 	go Run()
 	log.Println("init")
 }
 
 func Run() {
 	for {
-		resp, err := http.Get("http://" + options.Backend)
+		resp, err := http.Get("http://" + Options.Backend)
 		if err == nil && resp.StatusCode == 200 {
 			cache.FettleCache.Health = true
 		}

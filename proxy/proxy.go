@@ -17,6 +17,8 @@ limitations under the License.
 package proxy
 
 import (
+	"depark/config"
+	"fmt"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -38,7 +40,7 @@ func (h *handle) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func Run() {
-	log.Println("proxy started and listen on 16.187.145.35:8080.")
+	log.Println(fmt.Sprintf("proxy started and listen on %s", config.Options.Backend))
 	err := http.ListenAndServe(":8888", &handle{host: "16.187.145.35", port: "8080"})
 	if err != nil {
 		log.Fatalln("ListenAndServe: ", err)
