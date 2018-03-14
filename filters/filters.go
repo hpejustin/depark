@@ -17,24 +17,25 @@ limitations under the License.
 package filters
 
 import (
-	"log"
 	"depark/cache"
+	"log"
 
 	"github.com/emicklei/go-restful"
-
-
 )
 
+// ContainerLogging is a filter for container
 func ContainerLogging(req *restful.Request, resp *restful.Response, chain *restful.FilterChain) {
 	log.Printf("[container-filter] %s, %s\n", req.Request.Method, req.Request.URL)
 	chain.ProcessFilter(req, resp)
 }
 
+// ServiceLogging is a filter for service
 func ServiceLogging(req *restful.Request, resp *restful.Response, chain *restful.FilterChain) {
 	log.Printf("[service-filter] %s, %s\n", req.Request.Method, req.Request.URL)
 	chain.ProcessFilter(req, resp)
 }
 
+// ServiceDiagnosis provide state of backend system
 func ServiceDiagnosis(req *restful.Request, resp *restful.Response, chain *restful.FilterChain) {
 	if !cache.FettleCache.Health {
 		resp.AddHeader("Content-Type", "application/json")

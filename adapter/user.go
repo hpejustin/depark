@@ -22,9 +22,9 @@ import (
 
 	"github.com/emicklei/go-restful"
 
-	"depark/model"
-	"depark/filters"
 	"depark/dao"
+	"depark/filters"
+	"depark/model"
 )
 
 type UserService struct {
@@ -79,8 +79,6 @@ func (u UserService) Register() *restful.WebService {
 
 	return ws
 }
-
-
 
 // GET http://localhost:8080/users
 //

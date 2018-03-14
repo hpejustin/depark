@@ -24,9 +24,9 @@ import (
 	"github.com/emicklei/go-restful"
 	"github.com/emicklei/go-restful-swagger12"
 
-	"depark/proxy"
-	"depark/filters"
 	_ "depark/config"
+	"depark/filters"
+	"depark/proxy"
 	"depark/svc"
 )
 
@@ -59,5 +59,3 @@ func main() {
 	go proxy.Run()
 	log.Fatal(server.ListenAndServe())
 }
-
-
