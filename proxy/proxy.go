@@ -40,8 +40,8 @@ func (h *handle) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func Run() {
-	log.Println(fmt.Sprintf("proxy started and listen on %s", config.Options.Backend))
-	err := http.ListenAndServe(":8888", &handle{host: "39.106.21.94", port: "8080"})
+	log.Println(fmt.Sprintf("backend ip and address is %s:%s", config.Options.BackendIp, config.Options.BackendPort))
+	err := http.ListenAndServe(":8888", &handle{host: config.Options.BackendIp, port: config.Options.BackendPort})
 	if err != nil {
 		log.Fatalln("ListenAndServe: ", err)
 	}

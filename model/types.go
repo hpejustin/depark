@@ -19,4 +19,29 @@ package model
 type User struct {
 	Id   string `json: "id"`
 	Name string `json: "name"`
+	/*TODO: User Auth*/
+	/*Token string `json: "token"`*/
+}
+
+type Cluster struct {
+	Id   string `json: "id"`
+	Name string `json: "name"`
+}
+
+type Deployment struct {
+	Id          string        `json: "id"`
+	Name        string        `json: "name"`
+	Conf        Configuration `json: "conf"`
+	ClusterName Cluster       `json: "cluster"`
+	Namespace   string        `json: "namespace"`
+}
+
+type Configuration struct {
+	Id   string `json: "id"`
+	Name string `json: "name"`
+	/*resource url*/
+	Source string `json: "source"`
+	/*format:cluster/ns/cfg*/
+	/*TODO: Support multiple kubernetes*/
+	Target string `json: "source"`
 }

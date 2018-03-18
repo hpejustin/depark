@@ -31,7 +31,8 @@ import (
 var Options = RunOptions{}
 
 type RunOptions struct {
-	Backend string `json: "backend"`
+	BackendIp   string `json: "backendUrl"`
+	BackendPort string `json: "backendPoint"`
 }
 
 func init() {
@@ -50,14 +51,14 @@ func init() {
 		return
 	}
 
-	log.Printf("backend: %s", Options.Backend)
+	log.Printf("backend: %s", Options.BackendIp+":"+Options.BackendPort)
 	go Run()
 	log.Println("init")
 }
 
 func Run() {
 	for {
-		resp, err := http.Get("http://" + Options.Backend)
+		resp, err := http.Get("http://" + Options.BackendIp + ":" + Options.BackendPort)
 		if err == nil && resp.StatusCode == 200 {
 			cache.FettleCache.Health = true
 		}

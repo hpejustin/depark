@@ -17,12 +17,14 @@ limitations under the License.
 package svc
 
 import (
-	"github.com/emicklei/go-restful"
 	"depark/adapter"
 	"depark/dao"
+	"github.com/emicklei/go-restful"
 )
 
 func InitService(container *restful.Container) {
-	service := adapter.UserService{UserRepository: dao.NewUserDAO()}
-	container.Add(service.Register())
+	userService := adapter.UserService{UserRepository: dao.NewUserDAO()}
+	configurationService := adapter.ConfigurationService{ConfigurationRepository: dao.NewConfigurationDAO()}
+	container.Add(userService.Register())
+	container.Add(configurationService.Register())
 }
